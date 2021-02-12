@@ -33,22 +33,13 @@ jobs:
   deploy: # job name
     executor: default
     # この設定はcheckout先の指定であって、repository内のdirectoryは指定できない
-    working_directory: ~/front
+    # working_directory: ~/front
     steps:
       - checkout # ここでworking_directoryにcheckooutされる
       - npm_install
       - run:
           name: build
           command: yarn build
-      - run:
-          name: pwd
-          command: pwd
-      - run:
-          name: ls
-          command: ls
-      - run:
-          name: cd ..
-          command: cd ..
       - run:
           name: pwd
           command: pwd
