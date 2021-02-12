@@ -33,7 +33,7 @@ jobs:
   deploy: # job name
     executor: default
     # この設定はcheckout先の指定であって、repository内のdirectoryは指定できない
-    # working_directory: ~/front
+    working_directory: /
     steps:
       - checkout # ここでworking_directoryにcheckooutされる
       - npm_install
