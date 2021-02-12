@@ -45,7 +45,6 @@ jobs:
             --acl public-read \
             --acl bucket-owner-full-control \
             --cache-control "max-age=86400" \
-            --delete
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-region: AWS_REGION
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
