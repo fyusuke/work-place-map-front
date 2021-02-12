@@ -32,7 +32,7 @@ jobs:
       
   deploy: # job name
     executor: default
-    working_directory: ~/front
+    # working_directory: ~/front
     steps:
       - checkout
       - npm_install
