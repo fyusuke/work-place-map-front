@@ -38,10 +38,10 @@ jobs:
       - npm_install
       - run:
           name: build
-          command: yarn build:prod
+          command: yarn build
       # from と to, overwrite は circleci/aws-s3 のカスタムパラメータ
       - aws-s3/sync:
-          from: dist
+          from: front
           to: s3://work-place-map-front
           overwrite: true
 
