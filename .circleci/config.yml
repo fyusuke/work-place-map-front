@@ -33,7 +33,7 @@ jobs:
   deploy: # job name
     executor: default
     # この設定はcheckout先の指定であって、repository内のdirectoryは指定できない
-    working_directory: ~
+    working_directory: ~/front
     steps:
       - checkout # ここでworking_directoryにcheckooutされる
       - npm_install
@@ -52,7 +52,7 @@ jobs:
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-region: AWS_REGION
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          from: front
+          from: .
           to: s3://work-place-map-front/front
           overwrite: true
 
