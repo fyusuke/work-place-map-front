@@ -1,0 +1,58 @@
+version: 2.1
+
+orbs:
+  aws-s3: circleci/aws-s3@1.0.11
+
+executors:
+  default:
+    docker:
+      - image: circleci/node:10
+      - image: circleci/python:2.7 # for aws-s3
+
+commands:
+  npm_install:
+    steps:
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: install npm
+          command: yarn install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+              - node_modules
+
+jobs:
+  build: # job name
+    executor: default
+    working_directory: ~/front
+    steps:
+      - checkout
+      - npm_install
+      
+  deploy: # job name
+    executor: default
+    working_directory: ~/front
+    steps:
+      - checkout
+      - npm_install
+      - run:
+          name: build
+          command: yarn build:prod
+      # from と to, overwrite は circleci/aws-s3 のカスタムパラメータ
+      - aws-s3/sync:
+          from: dist
+          to: s3://work-place-map-front
+          overwrite: true
+
+workflows:
+  version: 2
+  continuous-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
