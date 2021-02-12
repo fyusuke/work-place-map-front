@@ -40,9 +40,6 @@ jobs:
       - run:
           name: build
           command: yarn build
-      - run:
-          name: pwd
-          command: pwd
       # from と to, overwrite は circleci/aws-s3 のカスタムパラメータ
       - aws-s3/sync:
           arguments: |
@@ -52,8 +49,8 @@ jobs:
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-region: AWS_REGION
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          from: .
-          to: s3://work-place-map-front/front
+          from: dist
+          to: s3://work-place-map-front/dist
           overwrite: true
 
 workflows:
@@ -63,7 +60,7 @@ workflows:
       - build
       - deploy:
           requires:
-            - build
+          - build
           filters:
             branches:
               only: master
