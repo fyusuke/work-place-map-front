@@ -41,8 +41,17 @@ jobs:
           command: yarn build
       # from と to, overwrite は circleci/aws-s3 のカスタムパラメータ
       - aws-s3/sync:
+          arguments: |
+            --acl public-read \
+            --acl bucket-owner-full-control \
+            --cache-control "max-age=86400" \
+            --delete
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-region: AWS_REGION
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          overwrite: true
           from: front
-          to: s3://work-place-map-front
+          to: 's3://work-place-map-front/front'
           overwrite: true
 
 workflows:
