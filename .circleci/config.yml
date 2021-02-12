@@ -1,69 +1,27 @@
-version: 2.1
-
-orbs:
-  aws-s3: circleci/aws-s3@1.0.11
-
-executors:
-  default:
-    docker:
-      - image: circleci/node:10
-      - image: circleci/python:3.6 # for aws-s3
-
-commands:
-  npm_install:
-    steps:
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: install npm
-          command: yarn install
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-              - node_modules
-
+version: 2
 jobs:
-  build: # job name
-    executor: default
+  build:
+    docker:
+      - image: circleci/node:10.0.0
     working_directory: ~/front
     steps:
       - checkout
-      - npm_install
-      
-  deploy: # job name
-    executor: default
-    # この設定はcheckout先の指定であって、repository内のdirectoryは指定できない
+      - run: yarn install
+      - run: yarn generate
+      - persist_to_workspace:
+          root: ~/front
+          paths:
+            - dist
+  deploy:
+    docker:
+      - image: circleci/python:3.6-jessie
     working_directory: ~/front
     steps:
-      - checkout # ここでworking_directoryにcheckooutされる
-      - npm_install
-      - run:
-          name: build
-          command: yarn build
-      - run:
-          name: pwd
-          command: pwd
-      # from と to, overwrite は circleci/aws-s3 のカスタムパラメータ
-      - aws-s3/sync:
-          arguments: |
-            --acl public-read \
-            --acl bucket-owner-full-control \
-            --cache-control "max-age=86400"
-          aws-access-key-id: AWS_ACCESS_KEY_ID
-          aws-region: AWS_REGION
-          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          from: .
-          to: s3://work-place-map-front/front
-          overwrite: true
-
-workflows:
-  version: 2
-  continuous-deploy:
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
+      - attach_workspace:
+          at: ~/front
+      - run: sudo pip install awscli
+      - run: pwd
+      - run: ls
+      - run: aws s3 sync . s3://work-place-map-front/front --exact-timestamps --delete --exclude "*" --include "*.html" --cache-control no-store
+      - run: aws s3 sync . s3://work-place-map-front/front --exact-timestamps --delete --exclude "*" --include "*.js" --cache-control max-age=31536000
+      # - run: aws cloudfront create-invalidation --distribution-id $CF_DIST_ID --paths "/*"
