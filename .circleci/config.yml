@@ -7,7 +7,7 @@ executors:
   default:
     docker:
       - image: circleci/node:10
-      - image: circleci/python:2.7 # for aws-s3
+      - image: circleci/python:3.6 # for aws-s3
 
 commands:
   npm_install:
@@ -32,24 +32,28 @@ jobs:
       
   deploy: # job name
     executor: default
-    # working_directory: ~/front
+    # この設定はcheckout先の指定であって、repository内のdirectoryは指定できない
+    working_directory: ~/front
     steps:
-      - checkout
+      - checkout # ここでworking_directoryにcheckooutされる
       - npm_install
       - run:
           name: build
           command: yarn build
+      - run:
+          name: pwd
+          command: pwd
       # from と to, overwrite は circleci/aws-s3 のカスタムパラメータ
       - aws-s3/sync:
           arguments: |
             --acl public-read \
             --acl bucket-owner-full-control \
-            --cache-control "max-age=86400" \
+            --cache-control "max-age=86400"
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-region: AWS_REGION
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          from: front
-          to: s3://work-place-map-front/front
+          from: dist
+          to: s3://work-place-map-front/dist
           overwrite: true
 
 workflows:
