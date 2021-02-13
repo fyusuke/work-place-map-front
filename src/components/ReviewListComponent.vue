@@ -31,7 +31,7 @@
           </div>
 
           <!-- comments -->
-          <div v-if="this.reviews.length === 0" style="text-align:center;">
+          <div v-if="this.reviews.length === 0" style="text-align:center; margin: 1em auto">
             投稿はまだありません
           </div>
           <div v-else>

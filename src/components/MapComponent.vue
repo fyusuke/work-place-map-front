@@ -29,9 +29,15 @@
       </div>
     </form>
 
-    <div class="place-window" v-if="placeWindowOpen">
-      
-    </div>
+    <section id="rectangle" v-if="placeWindowOpen">
+        <div class="inner">
+            <div class="box">
+              <div id="place-picture" style="width:100%;"></div>
+              <button class="btn btn-link" @click="goToReviewList">コメント読む</button>
+              <button class="btn btn-link" @click="goToReviewWrite">コメント書く</button>
+            </div>
+        </div>
+    </section>
 
   </div>
 </template>
@@ -59,12 +65,14 @@ export default {
         // { position: { lat: 35.698304, lng: 139.766325 }, title: 'title' }
       ],
       placeWindowOpen: false,
+      selectedMarker: null,
     }
   },
   methods: {
     findPlaceByKeyword(){
       var vm = this;
       var map = this.$refs.gmap.$mapObject;
+      this.placeWindowOpen = false;
 
       var request = {
         query: this.keyword,
@@ -165,9 +173,8 @@ export default {
           console.log('results length: ', results.length)
           for (var i = 0; i < results.length; i++) {
             var place = results[i];
-            console.log(place)
+            // console.log(place)
             let icon = {
-              // url: place.icon, // url
               url: markerIcon, // url
               // scaledSize: new vm.google.maps.Size(30, 30), // scaled size
               origin: new vm.google.maps.Point(0,0), // origin
@@ -184,9 +191,6 @@ export default {
               types: place.types
             }
             vm.nearbyMarkers.push(marker);
-            // if(typeof marker.photos !== 'undefined'){
-            //   console.log(marker.photos[0].getUrl());
-            // }
             
           }
           if (pagetoken.hasNextPage) {
@@ -203,13 +207,34 @@ export default {
         // console.log('nearbyMarkers: ', vm.nearbyMarkers)
       });
     },
-    showPlaceWindow(gmapPlaceId) {
-      // console.log("palce_id: "+gmapPlaceId);
-      const marker = this.nearbyMarkers.find(marker => marker.gmapPlaceId === gmapPlaceId);
-      console.log(marker.photo);
-
+    async showPlaceWindow(gmapPlaceId) { /////////////////////////////////////////
       this.placeWindowOpen = true;
-    }
+      await this.$nextTick();
+      const marker = this.nearbyMarkers.find(marker => marker.gmapPlaceId === gmapPlaceId);
+      // console.log(marker.photos);
+      this.selectedMarker = marker;
+      console.log(this.selectedMarker);
+      // if(marker.photos) {
+      //   var placePic = document.getElementById("place-picture");
+      //   placePic.innerHTML = `<img src="${marker.photos[0].getUrl({maxWidth: 400, maxHeight: 300})}" alt="place-pic" class="place-pic" />`; 
+      // }
+    },
+    goToReviewWrite(){
+      this.$router.push({ path: '/review_write',
+        query: {
+          placeName: this.selectedMarker.name,
+          gmapPlaceId: this.selectedMarker.gmapPlaceId 
+        }
+      });
+    },
+    goToReviewList(){
+      this.$router.push({ path: '/review_list',
+        query: {
+          placeName: this.selectedMarker.name,
+          gmapPlaceId: this.selectedMarker.gmapPlaceId 
+        }
+      });
+    },
   },
   computed: {
     google: VueGoogleMaps.gmapApi,
@@ -246,5 +271,49 @@ export default {
   background: white;
   border: 1px solid #000000;
   border-radius: 7px;
+}
+
+#rectangle {
+  position : absolute;
+  left : 0;
+  right : 0;
+  bottom : 30px;
+  width : 400px;
+  height : 300px;
+  margin : auto;
+  border-radius : 18px;
+  border : solid 1px #000;
+  background : white;
+}
+.inner {
+  max-width : 100%;
+  width : 100%;
+  height : 100%;
+  position : relative;
+}
+.box {
+  position : absolute;
+  font-size : 22px;
+  /* top : 50%;
+  left : 50%;
+  transform : translate(-50%,-50%); */
+  /* width : 100%; */
+  /* text-align : center; */
+  padding : 3%;
+}
+/* .place-pic {
+  width: 400px;
+  height: 300px;
+  object-fit: cover;
+} */
+@media screen and (max-width: 599px) {
+  #rectangle {
+    height : 300px;
+    border-radius : 10px;
+    width : calc(100% - 30px);
+  }
+  .box {
+    font-size : 30px;
+  }
 }
 </style>

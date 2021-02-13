@@ -16,7 +16,7 @@ commands:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: install npm
-          command: yarn install
+          command: yarn install # distフォルダを作成
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
