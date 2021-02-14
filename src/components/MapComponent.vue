@@ -29,13 +29,28 @@
       </div>
     </form>
 
-    <section id="rectangle" v-if="placeWindowOpen">
+    <!-- <section id="rectangle" v-if="placeWindowOpen">
         <div class="inner">
             <div class="box">
               <div id="place-picture" style="width:100%;"></div>
               <button class="btn btn-link" @click="goToReviewList">コメント読む</button>
               <button class="btn btn-link" @click="goToReviewWrite">コメント書く</button>
             </div>
+        </div>
+    </section> -->
+
+    <section id="rectangle" v-if="placeWindowOpen">
+        <div class="my-container">
+          <button type="button" class="close-btn" @click="closePlaceWindow">×</button>
+          <div class="img-box" id="img-box-id"></div>
+          <div class="content-box">
+            <div class="card-title">カフェhogehoge</div>
+            <div class="stars">★★★★★ (5)</div>
+          </div>
+          <div class="btn-box">
+            <button class="btn btn-link" @click="goToReviewList">コメント読む</button>
+            <button class="btn btn-link" @click="goToReviewWrite">コメント書く</button>
+          </div>
         </div>
     </section>
 
@@ -213,11 +228,15 @@ export default {
       const marker = this.nearbyMarkers.find(marker => marker.gmapPlaceId === gmapPlaceId);
       // console.log(marker.photos);
       this.selectedMarker = marker;
-      console.log(this.selectedMarker);
-      // if(marker.photos) {
-      //   var placePic = document.getElementById("place-picture");
-      //   placePic.innerHTML = `<img src="${marker.photos[0].getUrl({maxWidth: 400, maxHeight: 300})}" alt="place-pic" class="place-pic" />`; 
-      // }
+      // console.log(this.selectedMarker);
+      if(marker.photos !== 'undefined') {
+        var imgBoxId = document.getElementById("img-box-id");
+        // imgBoxId.innerHTML = `<img src="${marker.photos[0].getUrl({maxWidth: 400, maxHeight: 300})}" alt="img-box"/>`;
+        imgBoxId.innerHTML = `<img src="https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sATtYBwK2LJTJMazkQLBFYgjObD_etpqvHfWXQUbIphad8rt_UDQ6cMHAtp2g0gVhQi86Wvl3FrqoRhHKvgfoKDIX7-KWmlL7njyBnOgGgxXdNB7yZW6gZTTu5q9OzaVxBA3tw6l5F1bOpaH8JmLXzjZ5nBYOpVlinYSum-SYZDHRGe6b33nY&3u400&4u400&5m1&2e1&callback=none&key=AIzaSyCTRtMyL6yJqr9fzgcjcXPfMheibrkJcC4&token=5748" alt="img-box"/>`;
+      } else {
+        console.log('no image');
+        // imgBoxId.innerHTML = `<img class="background-color:rgb(255, 255, 128);" alt="img-box" />`; 
+      }
     },
     goToReviewWrite(){
       this.$router.push({ path: '/review_write',
@@ -235,6 +254,10 @@ export default {
         }
       });
     },
+    closePlaceWindow(){
+      this.placeWindowOpen = false;
+      this.selectedMarker = null;
+    }
   },
   computed: {
     google: VueGoogleMaps.gmapApi,
@@ -281,39 +304,86 @@ export default {
   width : 400px;
   height : 300px;
   margin : auto;
-  border-radius : 18px;
-  border : solid 1px #000;
   background : white;
 }
-.inner {
-  max-width : 100%;
+.my-container {
+  position : relative;
+  display: flex;
+  flex-direction: column;
   width : 100%;
   height : 100%;
-  position : relative;
+  border-radius : 10px;
+  border : 1px solid rgb(141, 125, 125);
 }
-.box {
-  position : absolute;
-  font-size : 22px;
-  /* top : 50%;
-  left : 50%;
-  transform : translate(-50%,-50%); */
-  /* width : 100%; */
-  /* text-align : center; */
-  padding : 3%;
+.close-btn {
+  outline: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  font-size: 16px;
+  border: 1px solid rgb(141, 125, 125);
+  border-radius: 50%;
+  background-color: #fff;
+  cursor: pointer;
 }
-/* .place-pic {
-  width: 400px;
-  height: 300px;
+.img-box {
+  width: 385px;
+  height: 170px;
+  margin: 5px auto 10px;
+}
+.img-box img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-} */
+}
+.content-box {
+  width: 100%;
+  padding: 0 10px;
+  margin-bottom: 5px;
+}
+.card-title {
+  margin-bottom: 5px;
+  font-size: 20px;
+}
+.stars {
+  font-size: 16px;
+}
+.btn-box {
+  display: flex;
+  justify-content: space-between;
+  margin: auto 0 5px;
+  padding: 0 25px;
+}
+
 @media screen and (max-width: 599px) {
   #rectangle {
-    height : 300px;
-    border-radius : 10px;
+    position : absolute;
+    left : 0;
+    right : 0;
+    bottom : 15px;
     width : calc(100% - 30px);
+    height : 250px;
+    margin : 0 auto;
   }
-  .box {
-    font-size : 30px;
+  .img-box {
+    width: 100%;
+    height: 135px;
+    margin: 0 auto 5px;
+    border-radius: 10px 10px 0 0;
+    overflow: hidden;
+  }
+  .content-box {
+    width: 100%;
+    padding: 0 10px;
+  }
+  .card-title {
+    font-size: 18px;
   }
 }
 </style>
