@@ -1,57 +1,52 @@
 <template>
-  <div class="map">
-    <GmapMap ref="gmap" :center="center" :zoom="zoom" style="width: 100%; height: 100%;" :options="mapStyle">
-        <GmapMarker v-if="targetMarker.title!==null"
-        :position="targetMarker.position"
-        :title="targetMarker.title"
-        :icon="targetMarker.icon"
-        :clickable="true"
-        @click="showPlaceWindow(marker.gmapPlaceId)"
-        :draggable="false">
-        </GmapMarker>
-        <GmapMarker v-for="(marker, id) in nearbyMarkers"
-        :position="marker.position"
-        :title="marker.name"
-        :key="id"
-        :icon="marker.icon"
-        :clickable="true"
-        @click="showPlaceWindow(marker.gmapPlaceId)"
-        :draggable="false">
-        </GmapMarker>
-    </GmapMap>
+  <div class="my-map">
     
-    <form @submit.prevent="findPlaceByKeyword">
-      <div class="input-group mb-3 serach-form">
+    <!-- Google Map -->
+    <GmapMap ref="gmap" :center="center" :zoom="zoom" style="width: 100%; height: 100%;" :options="mapStyle">
+      <GmapMarker v-if="targetMarker.title!==null"
+      :position="targetMarker.position"
+      :title="targetMarker.title"
+      :icon="targetMarker.icon"
+      :clickable="true"
+      @click="showPlaceWindow(marker.gmapPlaceId)"
+      :draggable="false">
+      </GmapMarker>
+      <GmapMarker v-for="(marker, id) in nearbyMarkers"
+      :position="marker.position"
+      :title="marker.name"
+      :key="id"
+      :icon="marker.icon"
+      :clickable="true"
+      @click="showPlaceWindow(marker.gmapPlaceId)"
+      :draggable="false">
+      </GmapMarker>
+    </GmapMap>
+
+    <!-- Search bar -->
+    <!-- <div @submit.prevent="findPlaceByKeyword"> -->
+    <form class="search-form" @submit.prevent="findPlaceByKeyword">
+      <div class="input-group mb-3">
         <input v-model="keyword" type="text" class="form-control" placeholder="地名、ホテル名を入力">
         <div class="input-group-append">
           <button v-on:click="findPlaceByKeyword" class="btn btn-primary" type="button">検索</button>
         </div>
       </div>
     </form>
-
-    <!-- <section id="rectangle" v-if="placeWindowOpen">
-        <div class="inner">
-            <div class="box">
-              <div id="place-picture" style="width:100%;"></div>
-              <button class="btn btn-link" @click="goToReviewList">コメント読む</button>
-              <button class="btn btn-link" @click="goToReviewWrite">コメント書く</button>
-            </div>
-        </div>
-    </section> -->
+    <!-- </div> -->
 
     <section id="rectangle" v-if="placeWindowOpen">
-        <div class="my-container">
-          <button type="button" class="close-btn" @click="closePlaceWindow">×</button>
-          <div class="img-box" id="img-box-id"></div>
-          <div class="content-box">
-            <div class="card-title">カフェhogehoge</div>
-            <div class="stars">★★★★★ (5)</div>
-          </div>
-          <div class="btn-box">
-            <button class="btn btn-link" @click="goToReviewList">コメント読む</button>
-            <button class="btn btn-link" @click="goToReviewWrite">コメント書く</button>
-          </div>
+      <div class="my-container">
+        <button type="button" class="close-btn" @click="closePlaceWindow">×</button>
+        <div class="img-box" id="img-box-id"></div>
+        <div class="content-box">
+          <div class="my-card-title">カフェhogehoge</div>
+          <div class="stars">★★★★★ (5)</div>
         </div>
+        <div class="btn-box">
+          <button class="btn btn-link" @click="goToReviewList">コメント読む</button>
+          <button class="btn btn-link" @click="goToReviewWrite">コメント書く</button>
+        </div>
+      </div>
     </section>
 
   </div>
@@ -81,6 +76,7 @@ export default {
       ],
       placeWindowOpen: false,
       selectedMarker: null,
+      tst: '',
     }
   },
   methods: {
@@ -222,20 +218,19 @@ export default {
         // console.log('nearbyMarkers: ', vm.nearbyMarkers)
       });
     },
-    async showPlaceWindow(gmapPlaceId) { /////////////////////////////////////////
+    async showPlaceWindow(gmapPlaceId) {
       this.placeWindowOpen = true;
       await this.$nextTick();
+      var imgBoxId = document.getElementById("img-box-id");
+      imgBoxId.innerHTML  = '';
+      imgBoxId.style.backgroundColor = "white"; 
       const marker = this.nearbyMarkers.find(marker => marker.gmapPlaceId === gmapPlaceId);
-      // console.log(marker.photos);
       this.selectedMarker = marker;
-      // console.log(this.selectedMarker);
-      if(marker.photos !== 'undefined') {
-        var imgBoxId = document.getElementById("img-box-id");
-        // imgBoxId.innerHTML = `<img src="${marker.photos[0].getUrl({maxWidth: 400, maxHeight: 300})}" alt="img-box"/>`;
-        imgBoxId.innerHTML = `<img src="https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sATtYBwK2LJTJMazkQLBFYgjObD_etpqvHfWXQUbIphad8rt_UDQ6cMHAtp2g0gVhQi86Wvl3FrqoRhHKvgfoKDIX7-KWmlL7njyBnOgGgxXdNB7yZW6gZTTu5q9OzaVxBA3tw6l5F1bOpaH8JmLXzjZ5nBYOpVlinYSum-SYZDHRGe6b33nY&3u400&4u400&5m1&2e1&callback=none&key=AIzaSyCTRtMyL6yJqr9fzgcjcXPfMheibrkJcC4&token=5748" alt="img-box"/>`;
+      if(typeof marker.photos !== 'undefined') {
+        imgBoxId.innerHTML = `<img src="${marker.photos[0].getUrl({maxWidth: 400, maxHeight: 300})}" alt="img-box"/>`;
       } else {
         console.log('no image');
-        // imgBoxId.innerHTML = `<img class="background-color:rgb(255, 255, 128);" alt="img-box" />`; 
+        imgBoxId.style.backgroundColor = "gray"; 
       }
     },
     goToReviewWrite(){
@@ -257,6 +252,15 @@ export default {
     closePlaceWindow(){
       this.placeWindowOpen = false;
       this.selectedMarker = null;
+    },
+    reloadCss(){
+      var links = document.getElementsByTagName("link");
+      for (var cl in links){
+        var link = links[cl];
+        if (link.rel === "stylesheet"){
+          link.href += "";
+        }
+      }
     }
   },
   computed: {
@@ -265,16 +269,16 @@ export default {
 }
 </script>
 
-<style scoped>
-.map {
+<style>
+.my-map {
   height: calc(100% - 56px);
+  width: 100%;
   position: relative;
 }
-
-.serach-form {
-  min-width: 20%;
-  max-width: 70%; 
+.search-form {
+  width: 500px;
   position: absolute;
+  z-index: 2;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
@@ -284,16 +288,19 @@ export default {
   padding: 0.25em;
 }
 
-.place-window {
-  position: absolute;
-  bottom:10px;
-  left: calc(50% - 100px);
-  z-index: 2;
-  width: 200px;
-  height: 30%;
-  background: white;
-  border: 1px solid #000000;
-  border-radius: 7px;
+@media screen and (max-width: 599px) {
+  .search-form {
+    width: 70%; 
+    position: absolute;
+    z-index: 2;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    border-radius:10px;
+    padding: 0.25em;
+  }
 }
 
 #rectangle {
@@ -347,7 +354,7 @@ export default {
   padding: 0 10px;
   margin-bottom: 5px;
 }
-.card-title {
+.my-card-title {
   margin-bottom: 5px;
   font-size: 20px;
 }
