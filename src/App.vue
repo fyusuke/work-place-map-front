@@ -7,6 +7,7 @@
 
 <script>
 import NavbarComponent from '@/components/NavbarComponent'
+import "./assets/scss/style.css"; // load css
 
 export default {
   name: 'App',

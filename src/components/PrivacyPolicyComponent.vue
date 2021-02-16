@@ -90,7 +90,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .section {
   margin: 1em auto;
 }

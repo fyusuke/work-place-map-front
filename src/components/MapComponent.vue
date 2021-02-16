@@ -23,24 +23,26 @@
     </GmapMap>
 
     <!-- Search bar -->
-    <!-- <div @submit.prevent="findPlaceByKeyword"> -->
     <form class="search-form" @submit.prevent="findPlaceByKeyword">
       <div class="input-group mb-3">
         <input v-model="keyword" type="text" class="form-control" placeholder="地名、ホテル名を入力">
         <div class="input-group-append">
-          <button v-on:click="findPlaceByKeyword" class="btn btn-primary" type="button">検索</button>
+          <button type="submit" class="btn btn-primary">検索</button>
         </div>
       </div>
     </form>
-    <!-- </div> -->
 
-    <section id="rectangle" v-if="placeWindowOpen">
+    <!-- Place window -->
+    <section id="rectangle" v-show="placeWindowOpen">
       <div class="my-container">
         <button type="button" class="close-btn" @click="closePlaceWindow">×</button>
         <div class="img-box" id="img-box-id"></div>
         <div class="content-box">
-          <div class="my-card-title">カフェhogehoge</div>
-          <div class="stars">★★★★★ (5)</div>
+          <div class="my-card-title">{{ selectedMarker.name }}</div> <!-- picture comes here -->
+          <div>
+            <star-rating v-model="selectedMarker.aveRating" :show-rating="false" :increment="0.1" :read-only="true" :star-size="25" style="display:inline-block; vertical-align: middle;"></star-rating>
+            <div style="display:inline-block; vertical-align: middle;">({{ selectedMarker.numOfRating }})</div>
+          </div>
         </div>
         <div class="btn-box">
           <button class="btn btn-link" @click="goToReviewList">コメント読む</button>
@@ -54,10 +56,14 @@
 
 <script>
 import * as VueGoogleMaps from 'vue2-google-maps' 
+import StarRating from 'vue-star-rating'
+import store from '@/store'
 
 export default {
   name: 'MapComponent',
   components: {
+    /* eslint-disable vue/no-unused-components */
+    StarRating
   },
   data() {
     return {
@@ -75,8 +81,7 @@ export default {
         // { position: { lat: 35.698304, lng: 139.766325 }, title: 'title' }
       ],
       placeWindowOpen: false,
-      selectedMarker: null,
-      tst: '',
+      selectedMarker: {aveRating:0, numOfRating:0},
     }
   },
   methods: {
@@ -168,7 +173,7 @@ export default {
     },
     textSearchNearbyPlaces(location, keyword, markerIcon){
       var vm = this;
-      vm.nearbyMarkers.splice(0, vm.nearbyMarkers.length) // TODO test
+      vm.nearbyMarkers.splice(0, vm.nearbyMarkers.length)
       // console.log('nearbyMarkers length: ', vm.nearbyMarkers.length)
       var map = this.$refs.gmap.$mapObject;
       let service = new vm.google.maps.places.PlacesService(map);
@@ -199,7 +204,7 @@ export default {
               gmapPlaceId: place.place_id,
               address: place.formatted_address,
               // openingHours: opening_hours,
-              types: place.types
+              types: place.types,
             }
             vm.nearbyMarkers.push(marker);
             
@@ -219,27 +224,62 @@ export default {
       });
     },
     async showPlaceWindow(gmapPlaceId) {
-      this.placeWindowOpen = true;
-      await this.$nextTick();
+      // Reset
       var imgBoxId = document.getElementById("img-box-id");
       imgBoxId.innerHTML  = '';
-      imgBoxId.style.backgroundColor = "white"; 
+      imgBoxId.style.backgroundColor = "white";
+
+      // update a picture of a selected place
       const marker = this.nearbyMarkers.find(marker => marker.gmapPlaceId === gmapPlaceId);
       this.selectedMarker = marker;
       if(typeof marker.photos !== 'undefined') {
         imgBoxId.innerHTML = `<img src="${marker.photos[0].getUrl({maxWidth: 400, maxHeight: 300})}" alt="img-box"/>`;
       } else {
-        console.log('no image');
         imgBoxId.style.backgroundColor = "gray"; 
       }
-    },
-    goToReviewWrite(){
-      this.$router.push({ path: '/review_write',
-        query: {
-          placeName: this.selectedMarker.name,
-          gmapPlaceId: this.selectedMarker.gmapPlaceId 
+
+      // get rating
+      var vm = this;
+      await this.axios.post(process.env.VUE_APP_API_BASE_URL + '/api/v1/places/get_rating', {
+        gmap_place_id: gmapPlaceId,
+      }, {
+          headers: {
+          "Content-Type": "application/json",
+          // "Authorization": 'Bearer ' + TOKEN
+          }
+      })
+      .then(async function(res) {
+        var rating = res.data.rating
+        console.log(rating)
+        vm.$set(vm.selectedMarker, "numOfRating", rating.numOfRating);
+        if(rating.numOfRating > 0){
+          vm.$set(vm.selectedMarker, "aveRating", rating.sumOfRating/rating.numOfRating);
+        }
+      })
+      .catch(function(error) {
+        if(error.response.status === 404){
+          vm.$set(vm.selectedMarker, "numOfRating", 0);
+          vm.$set(vm.selectedMarker, "aveRating", 0);
+        } else {
+          vm.$toasted.error('レビュー取得に失敗しました');
         }
       });
+
+      // show place window
+      vm.placeWindowOpen = true;
+      await vm.$nextTick();
+    },
+    goToReviewWrite(){
+      if (store.getters.isSignIn === false) {
+        this.$router.push('/login');
+      } else {
+        this.$router.push({ path: '/review_write',
+          query: {
+            placeName: this.selectedMarker.name,
+            gmapPlaceId: this.selectedMarker.gmapPlaceId 
+          }
+        });
+      }
     },
     goToReviewList(){
       this.$router.push({ path: '/review_list',
@@ -250,18 +290,9 @@ export default {
       });
     },
     closePlaceWindow(){
+      // this.selectedMarker = null; // cause error
       this.placeWindowOpen = false;
-      this.selectedMarker = null;
     },
-    reloadCss(){
-      var links = document.getElementsByTagName("link");
-      for (var cl in links){
-        var link = links[cl];
-        if (link.rel === "stylesheet"){
-          link.href += "";
-        }
-      }
-    }
   },
   computed: {
     google: VueGoogleMaps.gmapApi,
@@ -287,7 +318,6 @@ export default {
   border-radius:10px;
   padding: 0.25em;
 }
-
 @media screen and (max-width: 599px) {
   .search-form {
     width: 70%; 
@@ -355,11 +385,11 @@ export default {
   margin-bottom: 5px;
 }
 .my-card-title {
-  margin-bottom: 5px;
+  margin-bottom: 2px;
   font-size: 20px;
-}
-.stars {
-  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .btn-box {
   display: flex;
@@ -389,8 +419,11 @@ export default {
     width: 100%;
     padding: 0 10px;
   }
-  .card-title {
+  .my-card-title {
     font-size: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 </style>

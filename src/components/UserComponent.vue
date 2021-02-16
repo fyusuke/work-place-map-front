@@ -2,9 +2,30 @@
   <div class="row" style="margin: 10px 5px;">
     <div class="col-0  col-sm-2   col-md-3  col-xl-4"></div>
     <div class="col-12 col-sm-8 col-md-6 col-xl-4 my-auto">
-      <div style="margin: 20px auto;">ユーザー名：{{name}}</div>
-      <div style="margin: 20px auto;">Eメール：{{email}}</div>
-      <div style="text-align:center;">
+      
+
+      <form style="margin: 3em auto;" @submit.prevent="updateUserInfo">
+        <div class="input-group">
+          <div style="margin: auto">ユーザー名：</div>
+          <input v-model="name" class="form-control">
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-primary">保存</button>
+          </div>
+        </div>
+      </form>
+
+    <!-- <form class="search-form" @submit.prevent="findPlaceByKeyword">
+      <div class="input-group mb-3">
+        <input v-model="keyword" type="text" class="form-control" placeholder="地名、ホテル名を入力">
+        <div class="input-group-append">
+          <button v-on:click="findPlaceByKeyword" class="btn btn-primary" type="button">検索</button>
+        </div>
+      </div>
+    </form> -->
+
+
+      <div style="margin: 3em auto;">Eメール：{{email}}</div>
+      <div style="margin: 3em auto; text-align:center;">
         <button class="btn btn-secondary" @click="unregisterUser">登録解除</button>
       </div>
     </div>
@@ -30,7 +51,6 @@ export default {
   methods: {
     unregisterUser: async function(){
       var vm = this;
-      var uid = store.getters.user.uid;
 
       await firebase.unregister()
       .catch(function() {
@@ -38,13 +58,30 @@ export default {
         return;
       });
 
-      this.axios.delete(process.env.VUE_APP_API_BASE_URL + '/api/v1/users/' + uid)
+      this.axios.delete(process.env.VUE_APP_API_BASE_URL + '/api/v1/users/' + store.getters.user.uid)
       .then(function() {
         vm.$toasted.success('登録解除しました');
         vm.$router.push('/');
       })
       .catch(function() {
         vm.$toasted.error('送信に失敗しました');
+      });
+    },
+    updateUserInfo(){
+      var vm = this;
+      this.axios.patch(process.env.VUE_APP_API_BASE_URL + '/api/v1/users/' + store.getters.user.uid, {
+        name: this.name,
+      }, {
+          headers: {
+          "Content-Type": "application/json",
+          // "Authorization": 'Bearer ' + TOKEN
+          }
+      })
+      .then(async function(res) {
+        vm.$toasted.success('ユーザー情報を更新しました');
+      })
+      .catch(function(error) {
+        vm.$toasted.error('ユーザー情報の更新に失敗しました');
       });
     }
   },
@@ -63,5 +100,5 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 </style>

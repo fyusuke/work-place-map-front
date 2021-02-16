@@ -52,7 +52,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 /* Style inputs with type="text", select elements and textareas */
 input[type=text], select, textarea {
   width: 100%; /* Full width */

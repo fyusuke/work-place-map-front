@@ -11,7 +11,6 @@ import ContactUs from '@/components/ContactUsComponent'
 import PrivacyPolicy from '@/components/PrivacyPolicyComponent'
 import Terms from '@/components/TermsComponent'
 import Error from '@/components/TermsComponent'
-// import Test from '@/components/TestComponent'
 
 Vue.use(Router)
 
@@ -62,12 +61,6 @@ export default new Router({
       path: '/error',
       name: 'Error',
       component: Error
-    },
-    {
-      path: '/test',
-      name: 'Test',
-      component: ReviewList
-      // component: ReviewWrite
     },
   ]
 })
