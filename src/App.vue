@@ -13,7 +13,10 @@ export default {
   name: 'App',
   components: {
     NavbarComponent
-  }
+  },
+  mounted: function () {
+    document.title = process.env.VUE_APP_NAME
+  },
 }
 </script>
 

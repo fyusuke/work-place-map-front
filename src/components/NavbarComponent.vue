@@ -1,7 +1,7 @@
 <template>
   <div class="myheader" v-cloak>  
     <b-navbar toggleable="sm" type="dark" variant="info">
-      <b-navbar-brand to="/">Re:Work</b-navbar-brand>
+      <b-navbar-brand to="/">{{ appName }}</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse justify-content-end" is-nav>
         <b-navbar-nav class="ml-auto" v-cloak>
@@ -39,6 +39,9 @@ export default {
   computed: {
     isSignIn: function () {
       return store.getters.isSignIn;
+    },
+    appName: function() {
+      return process.env.VUE_APP_NAME;
     }
   }
 }
