@@ -105,9 +105,15 @@ export default {
             firebase.auth.EmailAuthProvider.PROVIDER_ID,
         ],
         // tosUrl and privacyPolicyUrl accept either url string or a callback function
-        tosUrl: '/terms', // Terms of service url/callback.
-        // Privacy policy url/callback. TODO
-        privacyPolicyUrl: '/privacy_policy',
+        // tosUrl: '/terms', // Terms of service url/callback.
+        // Privacy policy url/callback.
+        // privacyPolicyUrl: '/privacy_policy',
+        tosUrl: function() {
+            vm.$router.push('/terms');
+        },
+        privacyPolicyUrl: function() {
+            vm.$router.push('/privacy_policy');
+        }
     };
 
     // Initialize the FirebaseUI Widget using Firebase.
