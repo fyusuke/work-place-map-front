@@ -133,7 +133,7 @@ export default {
           console.log('results length: ', results.length)
           for (var i = 0; i < results.length; i++) {
             var place = results[i];
-            console.log('place: ', place)
+            // console.log('place: ', place)
             let icon = {
               url: '@/assets/cafe.png', // url
               // url: place.icon, // url
@@ -156,7 +156,7 @@ export default {
             vm.nearbyMarkers.push(marker)
             // console.log(place)
           }
-          console.log(vm.nearbyMarkers);
+          // console.log(vm.nearbyMarkers);
           if (pagetoken.hasNextPage) {
             setTimeout(
               function () {
@@ -186,7 +186,7 @@ export default {
       };
       service.textSearch(request, function (results, status, pagetoken) {
         if (status == vm.google.maps.places.PlacesServiceStatus.OK) {
-          console.log('results length: ', results.length)
+          // console.log('results length: ', results.length)
           for (var i = 0; i < results.length; i++) {
             var place = results[i];
             // console.log(place)
@@ -250,7 +250,7 @@ export default {
       })
       .then(async function(res) {
         var rating = res.data.rating
-        console.log(rating)
+        // console.log(rating)
         vm.$set(vm.selectedMarker, "numOfRating", rating.numOfRating);
         if(rating.numOfRating > 0){
           vm.$set(vm.selectedMarker, "aveRating", rating.sumOfRating/rating.numOfRating);

@@ -50,7 +50,7 @@ jobs:
           aws-region: AWS_REGION
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           from: dist
-          to: s3://work-place-map-front/dist
+          to: s3://work-place-map-front
           overwrite: true
 
 workflows:
