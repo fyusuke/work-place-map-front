@@ -34,6 +34,7 @@ export default {
       firebase.logout()
       // alert("ログアウトしました。");
       this.$router.push('/');
+      location.reload();
     }
   },
   computed: {
