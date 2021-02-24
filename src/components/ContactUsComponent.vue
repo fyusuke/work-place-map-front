@@ -32,7 +32,9 @@ export default {
         this.$toasted.error('内容を入力してください');
         return;
       }
-      // console.log(store.getters.user.uid)
+      // for dev
+      console.log(store.getters.user.uid)
+      console.log(process.env.VUE_APP_API_BASE_URL + '/api/v1/contact_us_forms');
       this.axios.post(process.env.VUE_APP_API_BASE_URL + '/api/v1/contact_us_forms', {
           message: this.message, firebase_uid: store.getters.user.uid
       }, {

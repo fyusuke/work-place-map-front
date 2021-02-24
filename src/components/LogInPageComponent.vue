@@ -69,7 +69,7 @@ export default {
                             // alert("ログインしました。");
                             // vm.$router.push('/');
                         // })
-
+                    
                     await vm.axios.post(process.env.VUE_APP_API_BASE_URL + '/api/v1/users', {
                         name: displayName, email: email, firebase_uid: authResult.user.uid
                     }, {
