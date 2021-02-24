@@ -72,11 +72,6 @@ export default {
                     
                     await vm.axios.post(process.env.VUE_APP_API_BASE_URL + '/api/v1/users', {
                         name: displayName, email: email, firebase_uid: authResult.user.uid
-                    }, {
-                        headers: {
-                        "Content-Type": "application/json",
-                        // "Authorization": 'Bearer ' + TOKEN
-                        }
                     })
                     .then(function(res) {
                         store.commit('setUser', user);

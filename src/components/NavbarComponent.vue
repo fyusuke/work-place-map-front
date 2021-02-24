@@ -33,7 +33,7 @@ export default {
       store.commit('setUser', {})
       firebase.logout()
       // alert("ログアウトしました。");
-      this.$router.go();
+      this.$router.push('/');
     }
   },
   computed: {

@@ -51,11 +51,6 @@ export default {
         gmap_place_id: this.gmapPlaceId,
         comment: this.comment,
         rating: this.rating
-      }, {
-        headers: {
-        "Content-Type": "application/json",
-        // "Authorization": 'Bearer ' + TOKEN
-        }
       })
       .then(function() {
         vm.$toasted.success('コメントをアップしました');

@@ -32,16 +32,8 @@ export default {
         this.$toasted.error('内容を入力してください');
         return;
       }
-      // for dev
-      console.log(store.getters.user.uid)
-      console.log(process.env.VUE_APP_API_BASE_URL + '/api/v1/contact_us_forms');
       this.axios.post(process.env.VUE_APP_API_BASE_URL + '/api/v1/contact_us_forms', {
-          message: this.message, firebase_uid: store.getters.user.uid
-      }, {
-          headers: {
-          "Content-Type": "application/json",
-          // "Authorization": 'Bearer ' + TOKEN
-          }
+        message: this.message, firebase_uid: store.getters.user.uid
       })
       .then(function() {
           vm.$toasted.success('送信完了しました');

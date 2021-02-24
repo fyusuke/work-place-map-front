@@ -21,11 +21,6 @@ export default {
       console.log('will create a new user in API server')
       this.axios.post(process.env.VUE_APP_API_BASE_URL + '/api/v1/users', {
           name: 'displayName', email: 'email@gmail.com'
-      }, {
-          headers: {
-          "Content-Type": "application/json",
-          // "Authorization": 'Bearer ' + TOKEN
-          }
       })
       .then(function(res) {
           console.log(res.data.userId);

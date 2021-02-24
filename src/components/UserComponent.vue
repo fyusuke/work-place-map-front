@@ -71,11 +71,6 @@ export default {
       var vm = this;
       this.axios.patch(process.env.VUE_APP_API_BASE_URL + '/api/v1/users/' + store.getters.user.uid, {
         name: this.name,
-      }, {
-          headers: {
-          "Content-Type": "application/json",
-          // "Authorization": 'Bearer ' + TOKEN
-          }
       })
       .then(async function(res) {
         vm.$toasted.success('ユーザー情報を更新しました');

@@ -80,11 +80,6 @@ export default {
       var vm = this;
       this.axios.post(process.env.VUE_APP_API_BASE_URL + '/api/v1/places/get_reviews', {
         gmap_place_id: gmapPlaceId,
-      }, {
-          headers: {
-          "Content-Type": "application/json",
-          // "Authorization": 'Bearer ' + TOKEN
-          }
       })
       .then(function(res) {
           var reviews = res.data.reviews;
