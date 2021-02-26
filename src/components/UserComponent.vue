@@ -1,9 +1,8 @@
 <template>
-  <div class="row" style="margin: 10px 5px;">
+  <div class="row" style="margin: 10px 5px;" v-cloak>
     <div class="col-0  col-sm-2   col-md-3  col-xl-4"></div>
     <div class="col-12 col-sm-8 col-md-6 col-xl-4 my-auto">
       
-
       <form style="margin: 3em auto;" @submit.prevent="updateUserInfo">
         <div class="input-group">
           <div style="margin: auto">ユーザー名：</div>
@@ -13,16 +12,6 @@
           </div>
         </div>
       </form>
-
-    <!-- <form class="search-form" @submit.prevent="findPlaceByKeyword">
-      <div class="input-group mb-3">
-        <input v-model="keyword" type="text" class="form-control" placeholder="地名、ホテル名を入力">
-        <div class="input-group-append">
-          <button v-on:click="findPlaceByKeyword" class="btn btn-primary" type="button">検索</button>
-        </div>
-      </div>
-    </form> -->
-
 
       <div style="margin: 3em auto;">Eメール：{{email}}</div>
       <div style="margin: 3em auto; text-align:center;">

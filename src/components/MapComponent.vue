@@ -97,6 +97,8 @@ export default {
   },
   methods: {
     findPlaceByKeyword(){
+      this.hideKeyboard();
+      
       var vm = this;
       var map = this.$refs.gmap.$mapObject;
       this.placeWindowOpen = false;
@@ -299,6 +301,10 @@ export default {
       // this.selectedMarker = null; // cause error
       this.placeWindowOpen = false;
     },
+    hideKeyboard(){
+      document.activeElement.blur();
+      document.getElementsByTagName('input').blur();
+    }
   },
   computed: {
     google: VueGoogleMaps.gmapApi,

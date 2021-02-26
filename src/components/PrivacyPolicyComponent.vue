@@ -97,4 +97,12 @@ export default {
 .section {
   margin: 1em auto;
 }
+
+ul, ol {
+  padding-left: 1.5em;
+}
+
+h3 {
+  margin: 0.7em auto 0em;
+}
 </style>
