@@ -1,5 +1,5 @@
 <template>
-  <div class="myheader" v-cloak>  
+  <div class="myheader">  
     <b-navbar toggleable="sm" type="dark" variant="info">
       <b-navbar-brand to="/">{{ appName }}</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -32,8 +32,7 @@ export default {
     logout: function () {
       store.commit('setUser', {});
       firebase.logout();
-      // this.$router.push('/');
-      // location.reload();
+      this.$router.push('/');
     }
   },
   computed: {

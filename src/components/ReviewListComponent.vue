@@ -9,15 +9,15 @@
         <!-- rating -->
         <div class="row" style="margin: 1rem auto">
           <!-- start rating -->
-          <div class="col-4 col-sm-3 col-md-3 col-lg-3 col-xl-3 my-auto" v-cloak>
-            <div style="text-align:center; font-size: 2rem;" class="my-auto" v-cloak>{{ this.aveRating }}</div>
+          <div class="col-4 col-sm-3 col-md-3 col-lg-3 col-xl-3 my-auto">
+            <div style="text-align:center; font-size: 2rem;" class="my-auto">{{ this.aveRating }}</div>
             <star-rating v-model="aveRating" :show-rating="false" :increment="0.1" :read-only="true" :star-size="this.starSize" style="margin: 5px auto; width: 100%; justify-content: center;" v-cloak></star-rating>
           </div>
           <!-- rating bar -->
           <div class="col-8 col-sm-9 col-md-9 col-lg-9 col-xl-9">
             <div style="margin-right: 1em;">
-              <div v-for="(rating, index) in ratings" :key="index" v-cloak>
-                <div class="row" v-cloak>
+              <div v-for="(rating, index) in ratings" :key="index">
+                <div class="row">
                   <div class="col-2  col-sm-2 text-right" style="font-size: 1rem;">{{ 5-index }}</div>
                   <div class="col-10 col-sm-10 rating-bar-default" style="position:relative;">
                     <div  class="rating-bar" style="position:absolute;" :style="{width: rating/reviews.length*100+'%' }"></div>
