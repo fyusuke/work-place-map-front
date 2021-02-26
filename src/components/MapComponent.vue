@@ -25,12 +25,23 @@
     <!-- Search bar -->
     <form class="search-form" @submit.prevent="findPlaceByKeyword">
       <div class="input-group mb-3">
-        <input v-model="keyword" type="text" class="form-control" placeholder="地名、ホテル名を入力">
+        <input v-model="keyword" type="text" class="form-control" style="margin:0;" placeholder="地名、ホテル名を入力">
         <div class="input-group-append">
           <button type="submit" class="btn btn-primary">検索</button>
         </div>
       </div>
     </form>
+    
+  <!-- <div class="search-form">
+    <b-input-group class="mt-3">
+      <b-form-input></b-form-input>
+      <b-input-group-append>
+        <b-button variant="info">検索</b-button>
+      </b-input-group-append>
+    </b-input-group>
+  </div> -->
+
+    
 
     <!-- Place window -->
     <section id="rectangle" v-show="placeWindowOpen">
@@ -304,7 +315,7 @@ export default {
 .search-form {
   width: 500px;
   position: absolute;
-  z-index: 2;
+  /* z-index: 2; */
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
@@ -317,7 +328,7 @@ export default {
   .search-form {
     width: 70%; 
     position: absolute;
-    z-index: 2;
+    /* z-index: 2; */
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
