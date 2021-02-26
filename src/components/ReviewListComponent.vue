@@ -5,15 +5,14 @@
         <div class="col-0  col-sm-1   col-md-2  col-xl-3"></div>
         <div class="col-12 col-sm-10 col-md-8 col-xl-6 my-auto">
           <!-- place name -->
-          <h2 class="text-center h1" style="margin: 20px auto;">{{ name }}</h2>
-
+          <h2 class="text-center h1" style="margin: 20px auto; word-break: normal;">{{ name }}</h2>
 
           <!-- rating -->
           <div class="row" style="margin: 1rem auto">
             <!-- start rating -->
             <div class="col-4 col-sm-3 col-md-3 col-lg-3 col-xl-3 my-auto">
               <div style="text-align:center; font-size: 2rem;" class="my-auto">{{ this.aveRating }}</div>
-              <star-rating :show-rating="false" :increment="0.1" :read-only="true" :star-size="this.starSize" style="margin: 5px auto; width: 100%; justify-content: center;">{{ aveRating }}</star-rating>
+              <star-rating v-model="aveRating" :show-rating="false" :increment="0.1" :read-only="true" :star-size="this.starSize" style="margin: 5px auto; width: 100%; justify-content: center;"></star-rating>
             </div>
             <!-- rating bar -->
             <div class="col-8 col-sm-9 col-md-9 col-lg-9 col-xl-9">
@@ -93,6 +92,7 @@ export default {
           // console.log(vm.ratings);
           if(vm.reviews.length > 0) {
             vm.aveRating = ratingSum / vm.reviews.length;
+            vm.$nextTick();
           }
       })
       .catch(function(error) {

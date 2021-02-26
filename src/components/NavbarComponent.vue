@@ -32,9 +32,8 @@ export default {
     logout: function () {
       store.commit('setUser', {})
       firebase.logout()
-      // alert("ログアウトしました。");
       this.$router.push('/');
-      location.reload();
+      // location.reload();
     }
   },
   computed: {

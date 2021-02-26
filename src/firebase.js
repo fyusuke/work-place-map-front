@@ -1,4 +1,5 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/app';
 import store from "./store";
 
 {/* <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-app.js"></script>

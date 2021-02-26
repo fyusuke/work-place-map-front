@@ -51,6 +51,7 @@ export default {
   methods: {
     unregisterUser: async function(){
       var vm = this;
+      var uid = store.getters.user.uid;
 
       await firebase.unregister()
       .catch(function() {
@@ -58,13 +59,13 @@ export default {
         return;
       });
 
-      this.axios.delete(process.env.VUE_APP_API_BASE_URL + '/api/v1/users/' + store.getters.user.uid)
+      this.axios.delete(process.env.VUE_APP_API_BASE_URL + '/api/v1/users/' + uid)
       .then(function() {
         vm.$toasted.success('登録解除しました');
         vm.$router.push('/');
       })
       .catch(function() {
-        vm.$toasted.error('送信に失敗しました');
+        vm.$toasted.error('登録解除に失敗しました');
       });
     },
     updateUserInfo(){
