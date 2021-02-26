@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import App from './App.vue'
 
 // index.html → npm  run buid → ./dist/index.html ← main.jsが組み込まれる
 // main.jsがアプリのエントリーポイント
@@ -61,9 +62,7 @@ Vue.use(GoogleMaps, {
   // installComponents: true
 });
 
-import App from './App.vue'
-
-Vue.config.productionTip = false
+Vue.config.productionTip = true // 開発中は true にしたほうがいいかも、true の場合の方が開発者向けのメッセージがコンソールによりたくさん出るようです。
 
 new Vue({
   router,
