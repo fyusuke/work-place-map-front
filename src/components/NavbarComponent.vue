@@ -1,16 +1,15 @@
 <template>
-  <div class="myheader">  
+  <div class="myheader" v-cloak>
     <b-navbar toggleable="sm" type="dark" variant="info">
       <b-navbar-brand to="/">{{ appName }}</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse justify-content-end" is-nav>
-        <b-navbar-nav class="ml-auto" v-cloak>
-          <!-- <b-nav-item to="/login">ユーザー登録 / ログイン</b-nav-item> -->
-          <b-nav-item to="/login" v-if="isSignIn===false" v-cloak>ユーザー登録 / ログイン</b-nav-item>
-          <b-nav-item v-on:click="logout" v-if="isSignIn===true" v-cloak>ログアウト</b-nav-item>
-          <b-nav-item to="/contact_us" v-if="isSignIn===true" v-cloak>お問い合わせ</b-nav-item>
-          <b-nav-item to="/terms" v-if="isSignIn===true" v-cloak>利用規約</b-nav-item>
-          <b-nav-item to="/user" v-if="isSignIn===true" v-cloak>ユーザー情報</b-nav-item>
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item to="/login" v-if="isSignIn===false">ユーザー登録 / ログイン</b-nav-item>
+          <b-nav-item v-on:click="logout" v-if="isSignIn===true">ログアウト</b-nav-item>
+          <b-nav-item to="/contact_us" v-if="isSignIn===true">お問い合わせ</b-nav-item>
+          <b-nav-item to="/terms" v-if="isSignIn===true">利用規約</b-nav-item>
+          <b-nav-item to="/user" v-if="isSignIn===true">ユーザー情報</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
