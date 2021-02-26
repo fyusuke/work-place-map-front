@@ -7,7 +7,8 @@
 
 <script>
 import NavbarComponent from '@/components/NavbarComponent'
-import "@/assets/scss/style.css"; // load css
+// import "@/assets/scss/style.scss"; // load css
+// require('@/assets/scss/style.scss')
 
 export default {
   name: 'App',
