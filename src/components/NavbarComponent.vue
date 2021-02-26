@@ -30,8 +30,8 @@ export default {
   },
   methods: {
     logout: function () {
-      store.commit('setUser', {})
-      firebase.logout()
+      store.commit('setUser', {});
+      firebase.logout();
       // this.$router.push('/');
       // location.reload();
     }
