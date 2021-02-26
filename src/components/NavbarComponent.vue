@@ -4,7 +4,7 @@
       <b-navbar-brand to="/">{{ appName }}</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav class="ml-auto" align="end">
+        <b-navbar-nav class="ml-auto">
           <b-nav-item to="/login" v-show="isSignIn===false">ユーザー登録 / ログイン</b-nav-item>
           <b-nav-item v-on:click="logout" v-show="isSignIn===true">ログアウト</b-nav-item>
           <b-nav-item to="/contact_us" v-show="isSignIn===true">お問い合わせ</b-nav-item>
