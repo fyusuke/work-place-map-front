@@ -5,6 +5,7 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse justify-content-end" is-nav>
         <b-navbar-nav class="ml-auto" v-cloak>
+          <!-- <b-nav-item to="/login">ユーザー登録 / ログイン</b-nav-item> -->
           <b-nav-item to="/login" v-if="isSignIn===false" v-cloak>ユーザー登録 / ログイン</b-nav-item>
           <b-nav-item v-on:click="logout" v-if="isSignIn===true" v-cloak>ログアウト</b-nav-item>
           <b-nav-item to="/contact_us" v-if="isSignIn===true" v-cloak>お問い合わせ</b-nav-item>

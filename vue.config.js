@@ -6,5 +6,6 @@ module.exports = {
             args[0].title = 'Re:Work'
             return args
         })
-    }
+    },
+    css: { extract: false }
 }
