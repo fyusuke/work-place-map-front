@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import App from './App.vue'
 
 // index.html → npm  run buid → ./dist/index.html ← main.jsが組み込まれる
 // main.jsがアプリのエントリーポイント
@@ -61,6 +60,8 @@ Vue.use(GoogleMaps, {
   //// If you want to automatically install all the components this property must be set to 'true':
   // installComponents: true
 });
+
+import App from './App.vue'
 
 Vue.config.productionTip = false
 
