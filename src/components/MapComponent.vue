@@ -25,23 +25,12 @@
     <!-- Search bar -->
     <form class="search-form" @submit.prevent="findPlaceByKeyword">
       <div class="input-group mb-3">
-        <input v-model="keyword" type="text" class="form-control" style="margin:0;" placeholder="地名、ホテル名を入力">
+        <input v-model="keyword" id="search-form" type="text" class="form-control" style="margin:0;" placeholder="地名、ホテル名を入力">
         <div class="input-group-append">
           <button type="submit" class="btn btn-primary">検索</button>
         </div>
       </div>
     </form>
-    
-  <!-- <div class="search-form">
-    <b-input-group class="mt-3">
-      <b-form-input></b-form-input>
-      <b-input-group-append>
-        <b-button variant="info">検索</b-button>
-      </b-input-group-append>
-    </b-input-group>
-  </div> -->
-
-    
 
     <!-- Place window -->
     <section id="rectangle" v-show="placeWindowOpen">
@@ -98,7 +87,7 @@ export default {
   methods: {
     findPlaceByKeyword(){
       this.hideKeyboard();
-      
+
       var vm = this;
       var map = this.$refs.gmap.$mapObject;
       this.placeWindowOpen = false;
@@ -303,7 +292,6 @@ export default {
     },
     hideKeyboard(){
       document.activeElement.blur();
-      document.getElementsByTagName('input').blur();
     }
   },
   computed: {
