@@ -6,7 +6,7 @@
 
 <script>
 import store from '@/store'
-import firebase from 'firebase/app';
+import firebase from 'firebase';
 import * as firebaseui from 'firebaseui-ja';
 import 'firebaseui-ja/dist/firebaseui.css';
 
