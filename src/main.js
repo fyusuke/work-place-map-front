@@ -62,7 +62,7 @@ Vue.use(GoogleMaps, {
   // installComponents: true
 });
 
-Vue.config.productionTip = true // 開発中は true にしたほうがいいかも、true の場合の方が開発者向けのメッセージがコンソールによりたくさん出るようです。
+Vue.config.productionTip = false // 開発中は true にしたほうがいいかも、true の場合の方が開発者向けのメッセージがコンソールによりたくさん出るようです。
 
 new Vue({
   router,
