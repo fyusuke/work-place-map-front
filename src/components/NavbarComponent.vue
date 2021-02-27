@@ -32,7 +32,7 @@ export default {
     logout: function () {
       store.commit('setUser', {});
       firebase.logout();
-      // this.$router.push('/');
+      this.$router.push('/');
     }
   },
   computed: {
