@@ -25,8 +25,6 @@ export default {
                     var photoURL = authResult.user.photoURL;
                     var email = authResult.user.email;
 
-                    console.log(authResult)
-
                     // SNSログイン＆で登録済みであればスキップ
                     if (displayName != "ゲスト" && !isNewUser) {
                         // document.cookie = "testField=registeredUser";
@@ -42,21 +40,18 @@ export default {
                             displayName = authResult.additionalUserInfo.profile.name;
                             photoURL = authResult.additionalUserInfo.profile.picture.data.url;
                             break;
-                        case firebase.auth.EmailAuthProvider.PROVIDER_ID:
+                        // Twitter doesn't provide email
+                        case firebase.auth.TwitterAuthProvider.PROVIDER_ID:
+                            displayName = authResult.additionalUserInfo.profile.name;
+                            photoURL = authResult.additionalUserInfo.profile.profile_image_url;
                             break;
-                        // Twitter doesn't provide email address so useless
-                        // case firebase.auth.TwitterAuthProvider.PROVIDER_ID:
-                        //     displayName = authResult.additionalUserInfo.profile.name;
-                        //     photoURL = authResult.additionalUserInfo.profile.profile_image_url;
+                        // case firebase.auth.EmailAuthProvider.PROVIDER_ID:
                         //     break;
                         default:
                             displayName = "ゲスト";
                             photoURL = "";
                             break;
                     }
-
-                    console.log(displayName)
-                    console.log(photoURL)
 
                     var user = {
                         uid: authResult.user.uid,
@@ -85,7 +80,7 @@ export default {
                     });
                 }
                 successResponse();
-                // vm.$router.push('/');
+                vm.$router.push('/');
                 // return true;
             },
             signInFailure: function() {
@@ -100,8 +95,8 @@ export default {
             // Leave the lines as is for the providers you want to offer your users.
             firebase.auth.GoogleAuthProvider.PROVIDER_ID,
             firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-            // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-            firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+            // firebase.auth.EmailAuthProvider.PROVIDER_ID,
         ],
         // tosUrl and privacyPolicyUrl accept either url string or a callback function
         // tosUrl: '/terms', // Terms of service url/callback.
