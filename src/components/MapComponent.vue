@@ -243,13 +243,10 @@ export default {
       // get rating
       var vm = this;
       await this.axios.post(process.env.VUE_APP_API_BASE_URL + '/api/v1/places/get_rating', {
-        gmap_place_id: gmapPlaceId,
-      }, {
-        headers: {'Content-Type': 'application/json'}
+        gmap_place_id: gmapPlaceId
       })
       .then(async function(res) {
         var rating = res.data.rating
-        // console.log(rating)
         vm.$set(vm.selectedMarker, "numOfRating", rating.numOfRating);
         if(rating.numOfRating > 0){
           vm.$set(vm.selectedMarker, "aveRating", rating.sumOfRating/rating.numOfRating);

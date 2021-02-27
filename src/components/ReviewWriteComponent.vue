@@ -62,7 +62,6 @@ export default {
         });
       })
       .catch(function(error) {
-        console.log(error.response.status );
         if(error.response.status === 403){
           vm.$toasted.error('既に投稿ずみです');
         } else {
