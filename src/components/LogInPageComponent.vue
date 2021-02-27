@@ -2,8 +2,6 @@
     <div id="firebaseui-auth-container"></div>
 </template>
 
-<script src="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.js"></script>
-
 <script>
 import store from '@/store'
 import firebase from 'firebase';
@@ -20,7 +18,7 @@ export default {
             uiShown: function() {
                 // console.log("uiShown");
             },
-            signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+            signInSuccessWithAuthResult: function(authResult) {
                 const successResponse = async () => {
                     var isNewUser = authResult.additionalUserInfo.isNewUser;
                     var displayName = authResult.user.displayName;
@@ -73,11 +71,11 @@ export default {
                     await vm.axios.post(process.env.VUE_APP_API_BASE_URL + '/api/v1/users', {
                         name: displayName, email: email, firebase_uid: authResult.user.uid
                     })
-                    .then(function(res) {
+                    .then(function() {
                         store.commit('setUser', user);
                         store.commit('setSignIn', true);
                     })
-                    .catch(function(err) {
+                    .catch(function() {
                         vm.$toasted.error('ユーザー登録に失敗しました');
                     });
                 }
@@ -85,7 +83,7 @@ export default {
                 vm.$router.push('/');
                 // return true;
             },
-            signInFailure: function(error) {
+            signInFailure: function() {
                 vm.$toasted.error('ユーザー登録に失敗しました');
                 // vm.$router.push('/');
             }
