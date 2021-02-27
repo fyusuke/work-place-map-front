@@ -242,10 +242,10 @@ export default {
 
       // get rating
       var vm = this;
-      console.log(process.env.VUE_APP_API_BASE_URL + '/api/v1/places/get_rating')
-
       await this.axios.post(process.env.VUE_APP_API_BASE_URL + '/api/v1/places/get_rating', {
         gmap_place_id: gmapPlaceId,
+      }, {
+        headers: {'Content-Type': 'application/json'}
       })
       .then(async function(res) {
         var rating = res.data.rating
