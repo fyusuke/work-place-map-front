@@ -45,8 +45,8 @@ export default {
                             displayName = authResult.additionalUserInfo.profile.name;
                             photoURL = authResult.aditionalUserInfo.profile.profile_image_url;
                             break;
-                        // case firebase.auth.EmailAuthProvider.PROVIDER_ID:
-                        //     break;
+                        case firebase.auth.EmailAuthProvider.PROVIDER_ID:
+                            break;
                         default:
                             displayName = "ゲスト";
                             photoURL = "";
@@ -91,7 +91,7 @@ export default {
             firebase.auth.GoogleAuthProvider.PROVIDER_ID,
             firebase.auth.FacebookAuthProvider.PROVIDER_ID,
             firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-            // firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            firebase.auth.EmailAuthProvider.PROVIDER_ID,
         ],
         // tosUrl and privacyPolicyUrl accept either url string or a callback function
         // tosUrl: '/terms', // Terms of service url/callback.
