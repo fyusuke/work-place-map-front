@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import store from '@/store'
-import StarRating from 'vue-star-rating'
+import store from '@/store/index.js';
+import StarRating from 'vue-star-rating';
 
 export default {
   name: 'ReviewWriteComponent',

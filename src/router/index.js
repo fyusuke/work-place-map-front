@@ -2,15 +2,15 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 // import '@/<path inside src folder>';
-import MapPage from '@/components/MapComponent'
-import User from '@/components/UserComponent'
-import LogInPage from '@/components/LogInPageComponent'
-import ReviewWrite from '@/components/ReviewWriteComponent'
-import ReviewList from '@/components/ReviewListComponent'
-import ContactUs from '@/components/ContactUsComponent'
-import PrivacyPolicy from '@/components/PrivacyPolicyComponent'
-import Terms from '@/components/TermsComponent'
-import Error from '@/components/TermsComponent'
+import MapPage from '@/components/pages/MapComponent'
+import User from '@/components/pages/UserComponent'
+import LogInPage from '@/components/pages/LogInPageComponent'
+import ReviewWrite from '@/components/pages/ReviewWriteComponent'
+import ReviewList from '@/components/pages/ReviewListComponent'
+import ContactUs from '@/components/pages/ContactUsComponent'
+import PrivacyPolicy from '@/components/pages/PrivacyPolicyComponent'
+import Terms from '@/components/pages/TermsComponent'
+import Error from '@/components/pages/ErrorComponent'
 
 Vue.use(Router)
 

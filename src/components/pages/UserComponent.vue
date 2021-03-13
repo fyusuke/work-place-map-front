@@ -24,8 +24,8 @@
 <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>  
 
 <script>
-import store from '@/store'
-import firebase from '@/firebase'
+import store from '@/store/index.js';
+import firebase from '@/firebase';
 
 export default {
   name: 'UserComponent',

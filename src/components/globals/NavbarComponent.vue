@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import store from '@/store'
-import firebase from '@/firebase'
+import store from '@/store/index.js';
+import firebase from '@/firebase';
 
 export default {
   name: 'NavbarComponent',

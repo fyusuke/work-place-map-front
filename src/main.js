@@ -1,15 +1,15 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from 'vue';
+import App from './App.vue';
 
 // index.html → npm  run buid → ./dist/index.html ← main.jsが組み込まれる
 // main.jsがアプリのエントリーポイント
 // new Vue() によって Vue App を立ち上げる
 
 // Vue Router
-import router from './router'
+import router from '@/router/index.js';
 
 // Vuex
-import store from './store'
+import store from '@/store/index.js';
 
 // Vue toasted
 import Toasted from 'vue-toasted';
@@ -22,24 +22,24 @@ var options = {
 Vue.use(Toasted, options);
 
 // Bootstrap
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-Vue.use(BootstrapVue)
-Vue.use(IconsPlugin)
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+Vue.use(BootstrapVue);
+Vue.use(IconsPlugin);
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 // Firebase Auth
-import firebase from './firebase'
+import firebase from './firebase';
 firebase.init();
 firebase.onAuth();
 
 // axios
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-Vue.use(VueAxios, axios)
+import axios from 'axios';
+import VueAxios from 'vue-axios';
+Vue.use(VueAxios, axios);
 
 // Google Map API
-import * as GoogleMaps from 'vue2-google-maps'
+import * as GoogleMaps from 'vue2-google-maps';
 Vue.use(GoogleMaps, {
   load: {
     key: process.env.VUE_APP_GOOGLE_MAP_API_KEY,
@@ -62,10 +62,10 @@ Vue.use(GoogleMaps, {
   // installComponents: true
 });
 
-Vue.config.productionTip = false // 開発中は true にしたほうがいいかも、true の場合の方が開発者向けのメッセージがコンソールによりたくさん出るようです。
+Vue.config.productionTip = false; // 開発中は true にしたほうがいいかも、true の場合の方が開発者向けのメッセージがコンソールによりたくさん出るようです。
 
 new Vue({
   router,
   store,
   render: h => h(App),
-}).$mount('#app')
+}).$mount('#app');

@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/app';
-import store from "./store";
+import store from '@/store/index.js';
 
 {/* <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-analytics.js"></script> */}

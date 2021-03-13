@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import store from '@/store'
+import store from '@/store/index.js';
 import firebase from 'firebase';
 import * as firebaseui from 'firebaseui-ja';
 import 'firebaseui-ja/dist/firebaseui.css';
@@ -43,10 +43,10 @@ export default {
                         // Twitter doesn't provide email
                         case firebase.auth.TwitterAuthProvider.PROVIDER_ID:
                             displayName = authResult.additionalUserInfo.profile.name;
-                            photoURL = authResult.additionalUserInfo.profile.profile_image_url;
+                            photoURL = authResult.aditionalUserInfo.profile.profile_image_url;
                             break;
-                        // case firebase.auth.EmailAuthProvider.PROVIDER_ID:
-                        //     break;
+                        case firebase.auth.EmailAuthProvider.PROVIDER_ID:
+                            break;
                         default:
                             displayName = "ゲスト";
                             photoURL = "";
@@ -62,11 +62,6 @@ export default {
                     await firebase
                         .auth()
                         .currentUser.updateProfile(user)
-                        // .then(res => {
-                            // console.log("Auth登録完了", res);
-                            // alert("ログインしました。");
-                            // vm.$router.push('/');
-                        // })
                     
                     await vm.axios.post(process.env.VUE_APP_API_BASE_URL + '/api/v1/users', {
                         name: displayName, email: email, firebase_uid: authResult.user.uid
@@ -96,7 +91,7 @@ export default {
             firebase.auth.GoogleAuthProvider.PROVIDER_ID,
             firebase.auth.FacebookAuthProvider.PROVIDER_ID,
             firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-            // firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            firebase.auth.EmailAuthProvider.PROVIDER_ID,
         ],
         // tosUrl and privacyPolicyUrl accept either url string or a callback function
         // tosUrl: '/terms', // Terms of service url/callback.

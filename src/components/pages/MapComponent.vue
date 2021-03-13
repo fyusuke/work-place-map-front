@@ -55,9 +55,9 @@
 </template>
 
 <script>
-import * as VueGoogleMaps from 'vue2-google-maps' 
-import StarRating from 'vue-star-rating'
-import store from '@/store'
+import * as VueGoogleMaps from 'vue2-google-maps';
+import StarRating from 'vue-star-rating';
+import store from '@/store/index.js';
 
 export default {
   name: 'MapComponent',
@@ -106,8 +106,8 @@ export default {
           // vm.$set(vm.targetMarker, 'icon', #);
           vm.center = targetPlace.geometry.location;
           vm.zoom = 16;
-          var cafeIcon = require('../assets/cafe.png');
-          var coworkingIcon = require('../assets/coworking.png');
+          var cafeIcon = require('@/assets/cafe.png');
+          var coworkingIcon = require('@/assets/coworking.png');
           // vm.searchNearbyPlaces(vm.center); // 「レストラン」を検索すると、「レストラン」というテキストの有無にかかわらず「レストラン」のみの店舗が返ってくる
           vm.textSearchNearbyPlaces(vm.center, 'カフェ', cafeIcon); // 位置に関係なく、テキストにマッチする施設等を検索できる。
           vm.textSearchNearbyPlaces(vm.center, 'コワーキングスペース', coworkingIcon);
@@ -132,7 +132,7 @@ export default {
         // console.log(results)
         // console.log(status)
         if (status == vm.google.maps.places.PlacesServiceStatus.OK) {
-          console.log('results length: ', results.length)
+          // console.log('results length: ', results.length);
           for (var i = 0; i < results.length; i++) {
             var place = results[i];
             // console.log('place: ', place)
@@ -154,8 +154,8 @@ export default {
               address: place.vicinity,
               // openingHours: opening_hours,
               types: place.types
-            }
-            vm.nearbyMarkers.push(marker)
+            };
+            vm.nearbyMarkers.push(marker);
             // console.log(place)
           }
           // console.log(vm.nearbyMarkers);
@@ -175,7 +175,7 @@ export default {
     },
     textSearchNearbyPlaces(location, keyword, markerIcon){
       var vm = this;
-      vm.nearbyMarkers.splice(0, vm.nearbyMarkers.length)
+      vm.nearbyMarkers.splice(0, vm.nearbyMarkers.length);
       // console.log('nearbyMarkers length: ', vm.nearbyMarkers.length)
       var map = this.$refs.gmap.$mapObject;
       let service = new vm.google.maps.places.PlacesService(map);
@@ -207,7 +207,7 @@ export default {
               address: place.formatted_address,
               // openingHours: opening_hours,
               types: place.types,
-            }
+            };
             vm.nearbyMarkers.push(marker);
             
           }
@@ -246,7 +246,7 @@ export default {
         gmap_place_id: gmapPlaceId
       })
       .then(async function(res) {
-        var rating = res.data.rating
+        var rating = res.data.rating;
         vm.$set(vm.selectedMarker, "numOfRating", rating.numOfRating);
         if(rating.numOfRating > 0){
           vm.$set(vm.selectedMarker, "aveRating", rating.sumOfRating/rating.numOfRating);
