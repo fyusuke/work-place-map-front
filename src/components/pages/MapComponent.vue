@@ -106,8 +106,8 @@ export default {
           // vm.$set(vm.targetMarker, 'icon', #);
           vm.center = targetPlace.geometry.location;
           vm.zoom = 16;
-          var cafeIcon = require('@/assets/cafe.png');
-          var coworkingIcon = require('@/assets/coworking.png');
+          var cafeIcon = require('@/assets/image/cafe.png');
+          var coworkingIcon = require('@/assets/image/coworking.png');
           // vm.searchNearbyPlaces(vm.center); // 「レストラン」を検索すると、「レストラン」というテキストの有無にかかわらず「レストラン」のみの店舗が返ってくる
           vm.textSearchNearbyPlaces(vm.center, 'カフェ', cafeIcon); // 位置に関係なく、テキストにマッチする施設等を検索できる。
           vm.textSearchNearbyPlaces(vm.center, 'コワーキングスペース', coworkingIcon);
@@ -137,7 +137,7 @@ export default {
             var place = results[i];
             // console.log('place: ', place)
             let icon = {
-              url: '@/assets/cafe.png', // url
+              url: '@/assets/image/cafe.png', // url
               // url: place.icon, // url
               // scaledSize: new vm.google.maps.Size(30, 30), // scaled size
               origin: new vm.google.maps.Point(0,0), // origin

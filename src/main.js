@@ -29,7 +29,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 // Firebase Auth
-import firebase from './firebase';
+import firebase from '@/plugins/firebase.js';
 firebase.init();
 firebase.onAuth();
 

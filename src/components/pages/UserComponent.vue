@@ -25,7 +25,7 @@
 
 <script>
 import store from '@/store/index.js';
-import firebase from '@/firebase';
+import firebase from '@/plugins/firebase.js';
 
 export default {
   name: 'UserComponent',
